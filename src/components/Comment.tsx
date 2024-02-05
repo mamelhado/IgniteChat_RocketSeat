@@ -13,7 +13,6 @@ export function Comment(props: CommentProps)
     const [likeCount, setLikeCount] = useState(0);
 
     function handleDeleteComment(){
-        //console.log("deletar");
         props.onDeleteComment(props.content);
     }
 
