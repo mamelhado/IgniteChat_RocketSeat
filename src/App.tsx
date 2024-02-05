@@ -1,11 +1,11 @@
 import { Post } from "./components/Post";
 import { Header } from "./components/Header";
 import { Sidebar } from "./components/Sidebar";
-
+import { PostInterface } from "./components/Post";
 import "./global.css";
 import styles from "./App.module.css";
 
-const posts = [
+const posts: PostInterface[] = [
   {
       id: 1,
       author: {
@@ -45,23 +45,18 @@ export function App() {
       <div className={styles.wrapper}>
         <Sidebar />
         <main>
-          {/* <Post />
-          <Post />   */}
           {
             posts.map(post =>{
               return (
                 <Post 
                   key={post.id}
-                  author={post.author}
-                  content={post.content}
-                  publishedAt={post.publishedAt}
+                  post={post}
                 />
               );
             })
           }
         </main>
-      </div>
-      
+      </div>      
     </div>
   )
 }

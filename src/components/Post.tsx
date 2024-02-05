@@ -16,13 +16,18 @@ interface Content{
     content: string;
 }
 
-interface PostProps{
+export interface PostInterface{
+    id: number;
     author: Author;
     publishedAt: Date;
     content: Content[];
 }
 
-export function Post(props: PostProps){
+interface PostProps{
+    post: PostInterface;
+}
+
+export function Post({ post } : PostProps){
 
 const [comments, setComments] = useState([
     "Post muito bacana, hein?!",
@@ -30,8 +35,8 @@ const [comments, setComments] = useState([
 
 const [newCommentText, setNewCommentText] = useState("");
 
-const publishedDateFormated = format(props.publishedAt, "d 'de' LLLL 'às' HH:mm'h'", { locale: ptBR})
-const publishseDateRelativeNow = formatDistanceToNow(props.publishedAt, {
+const publishedDateFormated = format(post.publishedAt, "d 'de' LLLL 'às' HH:mm'h'", { locale: ptBR})
+const publishseDateRelativeNow = formatDistanceToNow(post.publishedAt, {
     locale: ptBR,
     addSuffix: true
 });
@@ -70,24 +75,24 @@ const isNewCommentEmpty = newCommentText.length === 0;
                     <Avatar
                         hasBorder={true}
                         alt=""
-                        src={props.author.avatarUrl}
+                        src={post.author.avatarUrl}
                     />
                     <div className={styles.authorInfo}>
-                        <strong>{props.author.name}</strong>
-                        <span>{props.author.role}</span>
+                        <strong>{post.author.name}</strong>
+                        <span>{post.author.role}</span>
                     </div>
                 </div>
 
                 <time 
                     title={publishedDateFormated}
-                    dateTime={props.publishedAt.toISOString()}
+                    dateTime={post.publishedAt.toISOString()}
                 >{publishseDateRelativeNow}
                 </time>
             </header>
 
             <div className={styles.content}>
                 {
-                    props.content.map(line => {
+                    post.content.map(line => {
                         if(line.type== "paragraph"){
                             return (
                                 <p key={line.content}>{line.content}</p>
@@ -105,7 +110,8 @@ const isNewCommentEmpty = newCommentText.length === 0;
 
             <form 
                 onSubmit={handleCreateNewComment}
-                className={styles.commentForm}>
+                className={styles.commentForm}
+            >
                 <strong>Deixe seu feedback</strong>
 
                 <textarea 
